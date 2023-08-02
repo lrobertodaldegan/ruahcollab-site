@@ -1,0 +1,17 @@
+.homemenu-wrap{
+  margin-top: auto;
+  text-align: center;
+}
+.homemenu-wrap a{
+  text-decoration: none;
+  color: #fafafa;
+  transition: all .5s;
+}
+.homemenu-wrap a:hover{
+  font-size: 1.05em;
+}
+.hr{
+  border-color: #fafafa;
+  width: 90vw;
+  margin-left: 5vw;
+}

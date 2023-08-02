@@ -1,0 +1,7 @@
+.logo{
+  height: 20vh;
+  transition: all .5s;
+}
+.logo:hover{
+  height: 25vh;
+}

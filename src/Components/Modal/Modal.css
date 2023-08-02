@@ -1,0 +1,19 @@
+.modal-wrap{
+  background-color: #fafafa;
+  font-family: 'Montserrat-Light';
+  color:#8A4A20;
+  width: 50vw;
+  height: 80vh;
+  position: fixed;
+  top:10vh;
+  left:25vw;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.modal-closeCol{
+  text-align: right;
+}
+.modal-closeCol svg{
+  color:#8A4A20
+}

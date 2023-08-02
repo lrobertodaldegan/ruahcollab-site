@@ -1,0 +1,12 @@
+.loginForm .logo{
+  margin-bottom: 20px;
+}
+.loginForm a{
+  color:#8A4A20;
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.5s;
+}
+.loginForm a:hover{
+  font-size: 13px;
+}

@@ -1,0 +1,11 @@
+
+.signUpForm .logo{
+  margin-top: 0px;
+  margin-bottom: 20px;
+  height: 50px;
+}
+.signUpForm p{
+  font-size: 12px;
+  margin:0px;
+  color: #8A4A20;
+}

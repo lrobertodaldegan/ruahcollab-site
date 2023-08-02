@@ -1,0 +1,21 @@
+body{
+  background-color: #8A4A20;
+}
+.hp-wrap{
+  min-height: 85vh;
+  text-align: center;
+  align-items: center;
+}
+.hp-wrap p{
+  font-family: 'Montserrat-Italic';
+  color: #fafafa;
+  font-size: 18px;
+  margin-top: 5vh;
+  transition: all 0.5s;
+}
+.hp-wrap p:hover{
+  font-size: 22px;
+}
+.logo{
+  margin-top: 5vh;
+}
