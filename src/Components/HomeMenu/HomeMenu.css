@@ -1,8 +1,10 @@
-.homemenu-wrap{
+.homemenu-wrap,
+.homemenu-wrap-m{
   margin-top: auto;
   text-align: center;
 }
-.homemenu-wrap a{
+.homemenu-wrap a,
+.homemenu-wrap-m a{
   text-decoration: none;
   color: #fafafa;
   transition: all .5s;
@@ -14,4 +16,8 @@
   border-color: #fafafa;
   width: 90vw;
   margin-left: 5vw;
+}
+
+.homemenu-wrap-m a{
+  margin-bottom: 10px;
 }

@@ -1,0 +1,10 @@
+.btn{
+  background-color: #8a4a20;
+  color: #fafafa;
+  margin-top: 10px;
+  width: 18vw;
+  transition:all 0.5s
+}
+.btn svg{
+  margin-left: 3px;
+}

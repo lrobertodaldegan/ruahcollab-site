@@ -1,0 +1,5 @@
+.voluntairPage{
+  height: 86vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

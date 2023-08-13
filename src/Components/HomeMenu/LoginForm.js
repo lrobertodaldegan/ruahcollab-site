@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "../Logo/Logo";
 import './LoginForm.css';
 
-const LoginForm = () => {
+const LoginForm = ({navHandler}) => {
 const [email, setEmail] = useState(null);
 const [senha, setSenha] = useState(null);
 
@@ -10,6 +10,8 @@ const [senha, setSenha] = useState(null);
     event.preventDefault();
 
     console.log(event.target);
+
+    navHandler('app');
   }
 
   return (

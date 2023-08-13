@@ -2,18 +2,22 @@
   background-color: #fafafa;
   font-family: 'Montserrat-Light';
   color:#8A4A20;
-  width: 50vw;
-  height: 80vh;
+  width: 30vw;
+  height: 95vh;
   position: fixed;
-  top:10vh;
-  left:25vw;
+  top:2vh;
+  left:35vw;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
+  z-index: 1000;
 }
-.modal-closeCol{
+.modal-close{
   text-align: right;
+  color:#8A4A20;
+  transition: all 0.5s;
 }
-.modal-closeCol svg{
-  color:#8A4A20
+.modal-close:hover{
+  cursor: pointer;
+  color:#fafafa;
 }

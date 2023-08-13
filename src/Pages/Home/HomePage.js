@@ -2,7 +2,7 @@ import HomeMenu from '../../Components/HomeMenu/HomeMenu';
 import Logo from '../../Components/Logo/Logo';
 import './HomePage.css';
 
-const HomePage = () => {
+const HomePage = ({navHandler}) => {
   return (
     <>
       <div className='row hp-wrap'>
@@ -21,7 +21,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <HomeMenu />
+      <HomeMenu navHandler={navHandler}/>
     </>
   );
 }

@@ -1,0 +1,8 @@
+.dis-btn{
+  border: 1px solid #8a4a20;
+  background-color: #fafafa;
+  color: #8a4a20;
+  margin-top: 10px;
+  width: 18vw;
+  transition:all 0.5s
+}

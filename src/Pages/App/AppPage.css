@@ -1,0 +1,32 @@
+.appPage{
+  font-family: 'Montserrat-Regular';
+}
+.appPageMenu{
+  font-family: 'Montserrat';
+  color: #fafafa;
+  padding:0px 10px;
+  text-align: center;
+}
+.appPageMenu .logo{
+  height: 80px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.appPageMenu .sair{
+  margin-top: 50vh;
+}
+.appPageMenu .menuItem:hover{
+  cursor: pointer;
+}
+.appPageMenu .menuItemSelected{
+  font-family: 'Montserrat-Regular';
+}
+.appPageTitle{
+  font-family: 'Montserrat-Bold';
+  color: #8a4a20;
+}
+.appPageContent{
+  min-height: 100vh;
+  padding: 2% 5%;
+  background-color: #fafafa;
+}

@@ -1,0 +1,64 @@
+.searchResultsPage{
+  height: 86vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.searchResultsPage .wrapInputPesquisa input[type=text]{
+  border:none;
+  background-color: transparent;
+  width: 97%;
+  height: 25px;
+}
+
+.searchResultsPage .wrapInputPesquisa{
+  border:1px solid #8a4a204d;
+  height: 40px;
+  border-radius: 40px;
+  padding:0px 10px;
+  margin-bottom: 5px;
+}
+
+.searchResultsPage .searchForm svg{
+  width: 20px;
+  margin-top: 10px;
+  color: #8a4a20;
+}
+
+.searchResultsPage .searchForm span{
+  font-size: 12px;
+}
+
+.searchResultsPage .searchForm .col-1{
+  padding: 0px 0px 0px 0px;
+  width: 8.65vw;
+}
+
+.searchResultsPage .searchForm .col-1 svg{
+  margin-right: 5px;
+}
+
+.searchResultsPage .searchForm .searchBtn:hover{
+  cursor: pointer;
+}
+
+.searchResultsPage .searchTypeBtn{
+  border: 1px solid #fafafa;
+  border-radius: 10px;
+  height: 40px;
+  padding: 0px 5px;
+  transition: all 0.5s;
+}
+
+.searchResultsPage .searchTypeBtnSelected{
+  color: #fafafa;
+  background-color: #8a4a20;
+}
+
+.searchResultsPage .searchTypeBtnSelected svg{
+  color: #fafafa;
+}
+
+.searchResultsPage .searchTypeBtn:hover{
+  cursor: pointer;
+}

@@ -6,8 +6,14 @@
 
 @font-face {
   font-family: 'Montserrat-Light';
-  src: local('Montserrat'),
+  src: local('Montserrat-Light'),
         url('./Montserrat-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: local('Montserrat-Regular'),
+        url('./Montserrat-Regular.ttf');
 }
 
 @font-face {

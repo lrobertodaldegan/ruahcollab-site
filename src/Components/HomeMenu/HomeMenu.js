@@ -1,10 +1,11 @@
 import {useState} from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '../../Components/Modal/Modal';
-import './HomeMenu.css';
 import LoginForm from './LoginForm';
 import QuemSomos from './QuemSomos';
 import SignUpForm from './SignUpForm';
+import SignUpInstitutionForm from './SignUpInstitutionForm';
+import SignUpOptions from './SignUpOptions';
+import './HomeMenu.css';
 
 const menus = {
   quemSomos:'Quem somos',
@@ -14,7 +15,7 @@ const menus = {
   login:'Login',
 }
 
-const HomeMenu = () => {
+const HomeMenu = ({navHandler}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<></>);
 
@@ -24,9 +25,10 @@ const HomeMenu = () => {
     if(menus.quemSomos === action){
       content = <QuemSomos />
     } else if(menus.criarConta === action){
-      content = <SignUpForm />
+      content = <SignUpOptions handleVoluntario={() => setModalContent(<SignUpForm/>)}
+                    handleInstituicao={()=> setModalContent(<SignUpInstitutionForm/>)}/>
     } else if(menus.login === action){
-      content = <LoginForm />
+      content = <LoginForm navHandler={navHandler}/>
     }
 
     setModalContent(content);
@@ -47,17 +49,17 @@ const HomeMenu = () => {
     
       <hr className='hr'/>
 
-      <div className='row homemenu-wrap'>
+      <div className='row homemenu-wrap pc'>
         <div className='col'>
           <div onClick={() => handleModal(menus.quemSomos)}>
             <a href='#'>{menus.quemSomos}</a>
           </div>
         </div>
         <div className='col'>
-          <Link to='/'>{menus.instituicoes}</Link>
+        <a href='#'>{menus.instituicoes}</a>
         </div>
         <div className='col'>
-          <Link to='/'>{menus.voluntarios}</Link>
+          <a href='#'>{menus.voluntarios}</a>
         </div>
         <div className='col'>
           <div onClick={() => handleModal(menus.criarConta)}>
@@ -65,6 +67,30 @@ const HomeMenu = () => {
           </div>
         </div>
         <div className='col'>
+          <div onClick={() => handleModal(menus.login)}>
+            <a href='#'>{menus.login}</a>
+          </div>
+        </div>
+      </div>
+
+      <div className='homemenu-wrap-m mobile'>
+        <div className='row'>
+          <div onClick={() => handleModal(menus.quemSomos)}>
+            <a href='#'>{menus.quemSomos}</a>
+          </div>
+        </div>
+        <div className='row'>
+        <a href='#'>{menus.instituicoes}</a>
+        </div>
+        <div className='row'>
+          <a href='#'>{menus.voluntarios}</a>
+        </div>
+        <div className='row'>
+          <div onClick={() => handleModal(menus.criarConta)}>
+            <a href='#'>{menus.criarConta}</a>
+          </div>
+        </div>
+        <div className='row'>
           <div onClick={() => handleModal(menus.login)}>
             <a href='#'>{menus.login}</a>
           </div>
