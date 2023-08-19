@@ -1,0 +1,12 @@
+.quemsomos {
+  padding: 20px;
+  max-height: 85h;
+  overflow-y: scroll;
+}
+.quemsomos p {
+  text-align: justify;
+}
+.quemsomos .citacao{
+  text-align: center;
+  font-family: 'Montserrat-Italic';
+}

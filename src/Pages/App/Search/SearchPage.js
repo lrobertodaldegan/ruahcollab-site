@@ -4,92 +4,55 @@ import InstitutionCard from '../../../Components/InstitutionCard/InstitutionCard
 import './SearchPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLungs, faPlaceOfWorship, faSearch } from '@fortawesome/free-solid-svg-icons';
-
-const is = [
-  {
-    id:2,
-    tipo:'d',
-    titulo:'Atendimento social Mensal',
-    desc:'askjhas asdhaksdhas akshdakshda',
-    recorrencia:'Mensal',
-    instituicao: {
-      nome: 'Batatinha',
-      endereco: 'asdasd',
-      qtdDemandas: 10,
-      telefone:'9999999999',
-      email: 'email@email.com',
-      fotos:['https://picsum.photos/200', 'https://picsum.photos/300', 'https://picsum.photos/100']
-    }
-  },
-  {
-    id:0,
-    tipo:'d',
-    titulo:'Atendimento psicológico Semanal',
-    desc:'askjhas asdhaksdhas akshdakshda',
-    recorrencia:'Semanal',
-    status:'aceito',
-    instituicao: {
-      nome: 'Batatinha',
-      endereco: 'asdasd',
-      qtdDemandas: 10,
-      telefone:'9999999999',
-      email: 'email@email.com',
-      fotos:['https://picsum.photos/200', 'https://picsum.photos/300', 'https://picsum.photos/100']
-    }
-  },
-  {
-    id:1,
-    tipo:'d',
-    titulo:'Atendimento social Mensal',
-    desc:'askjhas asdhaksdhas akshdakshda',
-    recorrencia:'Mensal',
-    status:'pendente',
-    instituicao: {
-      nome: 'Batatinha',
-      endereco: 'asdasd',
-      qtdDemandas: 10,
-      telefone:'9999999999',
-      email: 'email@email.com',
-      fotos:['https://picsum.photos/200', 'https://picsum.photos/300', 'https://picsum.photos/100']
-    }
-  },
-  {
-    id:23,
-    tipo:'i',
-    nome: 'Batatinha',
-    resumo: 'Resumo detalhes Resumo detalhes Resumo detalhes Resumo detalhes',
-    endereco: 'asdasd',
-    qtdDemandas: 10,
-    telefone:'9999999999',
-    email: 'email@email.com',
-    fotos:['https://picsum.photos/200', 'https://picsum.photos/300', 'https://picsum.photos/100']
-  },
-  
-];
-
-const tiposPesquisa = { AMBOS: 'a', DEMANDAS: 'd', INSTITUICOES: 'i' }
+import {get} from '../../../Utils/restUtils';
 
 const SearchPage = () => {
   const [termoPesquisa, setTermoPesquisa] = useState('');
-  const [tipoPesquisa, setTipoPesquisa] = useState(tiposPesquisa.AMBOS);
-  const [results, setResults] = useState([]);
+  const [tipoPesquisa, setTipoPesquisa] = useState('a');
+  const [demands, setDemands] = useState([]);
+  const [institutions, setInstitutions] = useState([]);
 
   useEffect(() => {
-    
-  }, []);
+    search();
+  }, [tipoPesquisa]);
 
-  const loadResults = () => {
+  const search = () => {
+    setDemands([]);
+    setInstitutions([]);
+
+    let url = '/demand';
+
+    if(termoPesquisa && termoPesquisa.length > 2)
+      url = url + `?title=${termoPesquisa}`;
+
+    get(url).then(response => {
+      if(response.status === 200){
+        setDemands(response.data.demands);
+        setInstitutions(response.data.institutions);
+      }
+    });
+  }
+
+  const renderResults = () => {
     let components = [];
 
-    if(results && results.length > 0){
+    if(demands && institutions){
+    if(tipoPesquisa === 'a' || tipoPesquisa === 'd'){
+      demands.forEach(d => {
+        let inst = institutions.find(i => `${i._id}` === `${d.institutionId}`);
 
-      for(let i=0; i < results.length; i++){
-        if(results[i].tipo === 'd')
-          components.push(<SubscriptionCard item={results[i]}/>);
-        
-        if(results[i].tipo === 'i')
-          components.push(<InstitutionCard item={results[i]}/>);
-      }
+        if(inst)
+          d.institution = inst;
+
+        components.push(<SubscriptionCard item={{status:d.status, demand:d}}/>);
+      });
+    }
+
+    if(tipoPesquisa === 'a' || tipoPesquisa === 'i')
+      institutions.forEach(i => components.push(<InstitutionCard item={i}/>));
+
+    } else {
+      components.push(<span>Se encontrarmos algo, o resultado da pesquisa aparecerá aqui. Caso contrário, tente novamente.</span>);
     }
 
     return components;
@@ -97,7 +60,7 @@ const SearchPage = () => {
 
   const handleChangeTipoPesquisa = (tipoP) => {
     if(tipoPesquisa === tipoP)
-      setTipoPesquisa(tiposPesquisa.AMBOS);
+      setTipoPesquisa('a');
     else
       setTipoPesquisa(tipoP);
   }
@@ -113,26 +76,26 @@ const SearchPage = () => {
                 onChange={(e) => setTermoPesquisa(e.target.value)}
             />
             <FontAwesomeIcon icon={faSearch} className='searchBtn'
-                onClick={() => setResults(is)}
+                onClick={() => search()}
             />
           </div>
         </div>
         <div className='col-1'>
-          <div className={`searchTypeBtn ${tipoPesquisa == tiposPesquisa.INSTITUICOES ? 'searchTypeBtnSelected' : ''}`}
-              onClick={() => handleChangeTipoPesquisa(tiposPesquisa.INSTITUICOES)}>
+          <div className={`searchTypeBtn ${tipoPesquisa === 'i' ? 'searchTypeBtnSelected' : ''}`}
+              onClick={() => handleChangeTipoPesquisa('i')}>
             <FontAwesomeIcon icon={faPlaceOfWorship}/>
             <span>Instituições</span>
           </div>
         </div>
         <div className='col-1'>
-          <div className={`searchTypeBtn ${tipoPesquisa == tiposPesquisa.DEMANDAS ? 'searchTypeBtnSelected' : ''}`}
-                onClick={() => handleChangeTipoPesquisa(tiposPesquisa.DEMANDAS)}>
+          <div className={`searchTypeBtn ${tipoPesquisa === 'd' ? 'searchTypeBtnSelected' : ''}`}
+                onClick={() => handleChangeTipoPesquisa('d')}>
             <FontAwesomeIcon icon={faLungs}/>
             <span>Demandas</span>
           </div>
         </div>
       </div>
-      {loadResults()}
+      {renderResults()}
     </div>
   );
 }

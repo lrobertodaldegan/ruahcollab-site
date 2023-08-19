@@ -1,5 +1,9 @@
-.subscriptionsPage{
+.demandsPage{
   height: 86vh;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.demandsPage textarea{
+  background-color: #fafafa;
 }

@@ -1,17 +1,29 @@
 import { useState } from "react";
 import Logo from "../Logo/Logo";
+import { post } from '../../Utils/restUtils';
 import './LoginForm.css';
 
+
 const LoginForm = ({navHandler}) => {
-const [email, setEmail] = useState(null);
-const [senha, setSenha] = useState(null);
+const [email, setEmail] = useState('');
+const [senha, setSenha] = useState('');
+const [btnLbl, setBtnLbl] = useState('Login');
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(event.target);
+    if(btnLbl === 'Login'){
+      setBtnLbl('Entrando...');
 
-    navHandler('app');
+      post('/auth/signin', {email: email, password: senha}).then(response => {
+        if(response.status == 200){
+          navHandler('app');
+        } else {
+          setBtnLbl('Tente novamente!');
+        }
+      })
+      .catch(err => setBtnLbl('Tente novamente!'));
+    }
   }
 
   return (
@@ -25,20 +37,20 @@ const [senha, setSenha] = useState(null);
       <div className="row">
         <div className="col">
           <input type='text' name='email' placeholder="Seu e-mail"
-            value={email}/>   
+            value={email} onChange={(e) => setEmail(e.target.value)}/>   
         </div>
       </div>
       
       <div className="row">
         <div className="col">
           <input type='password' name='senha' placeholder="Sua senha"
-            value={senha}/> 
+            value={senha} onChange={(e) => setSenha(e.target.value)}/> 
         </div>
       </div>
          
       <div className="row">
         <div className="col">
-          <input type='submit' value='Login'/>    
+          <input type='submit' value={btnLbl}/>    
         </div>
       </div>
 

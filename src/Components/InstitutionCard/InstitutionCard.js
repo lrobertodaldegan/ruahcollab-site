@@ -6,11 +6,11 @@ const InstitutionCard = ({item}) => {
   const loadFotos = (i) => {
     let fs = [];
     
-    if(i && i.fotos && i.fotos.length > 0){
-      for(let c=0; c < i.fotos.length; c++){
+    if(i && i.photos && i.photos.length > 0){
+      for(let c=0; c < i.photos.length; c++){
         fs.push(
           <div className='col'>
-            <img key={i} src={i.fotos[c]} alt={i.nome}/>
+            <img key={i} src={i.photos[c]} alt={i.nome}/>
           </div>
         );
       }
@@ -20,10 +20,10 @@ const InstitutionCard = ({item}) => {
   }
 
   return (
-    <div className='instituicaoCard' key={item.id}>
+    <div className='instituicaoCard' key={item.name}>
       <div className='row'>
         <div className='col'>
-          <p className='title'>{item.nome}</p>
+          <p className='title'>{item.name}</p>
         </div>
       </div>
       <div className='row'>
@@ -44,20 +44,28 @@ const InstitutionCard = ({item}) => {
         <div className='col'>
           <ul>
             <li>
-              <FontAwesomeIcon icon={faLocationDot}/>
-              <span>{item.endereco}</span>
+              <FontAwesomeIcon icon={faLungs}/>
+              <span><a href={item.site} target='_blank'>Site da instituição</a></span>
             </li>
             <li>
-              <FontAwesomeIcon icon={faLungs}/>
-              <span>{item.qtdDemandas} demandas atendidas</span>
+              <FontAwesomeIcon icon={faLocationDot}/>
+              <span>{`${item.address} - CEP/ZIPCODE: ${item.zipcode}`}</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faPhone}/>
-              <span>{item.telefone}</span>
+              <span>{
+                item.contactPhone
+                  ? item.contactPhone
+                  : item.phone
+              }</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faEnvelope}/>
-              <span>{item.email}</span>
+              <span>{
+                item.contactEmail
+                  ? item.contactEmail
+                  : item.email
+              }</span>
             </li>
           </ul>
         </div>

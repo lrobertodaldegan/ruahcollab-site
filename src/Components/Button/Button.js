@@ -4,7 +4,7 @@ import './Button.css';
 const Button = ({label, icon=null, onClick=()=>null}) => {
   const loadIcon = () => {
     if(icon && icon != null)
-      return <FontAwesomeIcon icon={icon} size={14}/>;
+      return <FontAwesomeIcon icon={icon} size={'1x'}/>;
 
     return <></>;
   }

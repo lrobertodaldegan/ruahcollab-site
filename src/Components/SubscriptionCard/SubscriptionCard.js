@@ -1,18 +1,29 @@
+import {useState, useEffect} from 'react';
 import { faCalendarDays, faEnvelope, faLocationDot, faLungs, faPhone, faPlaceOfWorship, faWind } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../Button/Button';
 import DisabledButton from '../DisabledButton/DisableButton';
 import './SubscriptionCard.css';
+import {post, del} from '../../Utils/restUtils';
 
-const SubscriptionCard = ({item}) => {
+const LBL_CANCEL = 'Cancelar sua inscricao';
+
+const SubscriptionCard = ({item, cancellable=false}) => {
+  const [status, setStatus] = useState('');
+  const [cancelLbl, setCancelLbl] = useState(LBL_CANCEL);
+
+  useEffect(() => {
+    setStatus(item.status);
+  }, []);
+
   const loadFotos = (i) => {
     let fs = [];
     
-    if(i && i.fotos && i.fotos.length > 0){
-      for(let c=0; c < i.fotos.length; c++){
+    if(i && i.photos && i.photos.length > 0){
+      for(let c=0; c < i.photos.length; c++){
         fs.push(
           <div className='col'>
-            <img key={i} src={i.fotos[c]} alt={i.nome}/>
+            <img key={i} src={i.photos[c]} alt={i.nome}/>
           </div>
         );
       }
@@ -21,10 +32,26 @@ const SubscriptionCard = ({item}) => {
     return fs;
   }
 
+  const handleSubmit = (i) => {
+    post('/subscription', {demandId:i.demand.id}).then(response => {
+      if(response.status == 201)
+        setStatus('pendente');
+    });
+  }
+
+  const handleCancel = () => {
+    if(cancellable && cancelLbl === LBL_CANCEL){
+      del(`/subscription/${item.id}`).then(response => {
+        if(response.status == 200)
+          setCancelLbl('Cancelamento solicitado');
+      });
+    }
+  }
+
   const loadStatusContent = (i) => {
     let r = <></>;
 
-    if(i.status === 'aceito'){
+    if(status === 'aceito'){
       r = <>
         <Button label='VOCÊ FOI ACEITO!'/>
 
@@ -32,22 +59,35 @@ const SubscriptionCard = ({item}) => {
           Entre em contato com a instituição ou aguarde entrarem em contato!
         </p>
       </>
-    } else if (i.status === 'pendente'){
+    } else if (status === 'pendente'){
+      let cancelOpt = cancellable 
+                        ? <p className='desc cancel' onClick={() => handleCancel()}>
+                            {cancelLbl}
+                          </p>
+                        : <></>;
+
       r = <>
         <DisabledButton label='Inscrição pendente...' />
 
         <p className='desc'>
           Sua inscrição foi enviada, <br/>mas ainda não foi visualizada.
         </p>
+
+
+        {cancelOpt}
       </>
     } else {
-      r = <>
-        <Button label='RUAH' icon={faWind}/>
+      if(i.demand.subscriptions < i.demand.maxSubscriptions){
+        r = <>
+          <Button label='RUAH' icon={faWind} onClick={() => handleSubmit(i)}/>
 
-        <p className='desc'>
-          Faça parte desse propósito!
-        </p>
-      </>
+          <p className='desc'>
+            Faça parte desse propósito!
+          </p>
+        </>
+      } else {
+        r = <DisabledButton label='Inscrições encerradas' />
+      }
     }
 
     return r;
@@ -57,7 +97,7 @@ const SubscriptionCard = ({item}) => {
     <div className='inscricoesCard' key={item.id}>
       <div className='row'>
         <div className='col'>
-          <p className='title'>{item.titulo}</p>
+          <p className='title'>{item.demand.title}</p>
         </div>
       </div>
       <div className='row'>
@@ -65,13 +105,13 @@ const SubscriptionCard = ({item}) => {
           <div className='row'>
             <div className='col'>
               <p className='desc'>
-                {item.desc}
+                {item.demand.resume}
               </p>
             </div>
           </div>
 
           <div className='row'>
-            {loadFotos(item.instituicao)}
+            {loadFotos(item.demand.institution)}
           </div>
 
         </div>
@@ -79,27 +119,35 @@ const SubscriptionCard = ({item}) => {
           <ul>
             <li>
               <FontAwesomeIcon icon={faCalendarDays}/>
-              <span>{item.recorrencia}</span>
+              <span>{item.demand.recurrence}</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faPlaceOfWorship}/>
-              <span>{item.instituicao.nome}</span>
-            </li>
-            <li>
-              <FontAwesomeIcon icon={faLocationDot}/>
-              <span>{item.instituicao.endereco}</span>
+              <span>{item.demand.institution.name}</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faLungs}/>
-              <span>{item.instituicao.qtdDemandas} demandas atendidas</span>
+              <span><a href={item.demand.institution.site} target='_blank'>Site da instituição</a></span>
+            </li>
+            <li>
+              <FontAwesomeIcon icon={faLocationDot}/>
+              <span>{`${item.demand.institution.address} - CEP/ZIPCODE: ${item.demand.institution.zipcode}`}</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faPhone}/>
-              <span>{item.instituicao.telefone}</span>
+              <span>{
+                item.demand.institution.contactPhone 
+                    ? item.demand.institution.contactPhone
+                    : item.demand.institution.phone
+              }</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faEnvelope}/>
-              <span>{item.instituicao.email}</span>
+              <span>{
+                item.demand.institution.contactEmail
+                    ? item.demand.institution.contactEmail
+                    : item.demand.institution.email
+              }</span>
             </li>
           </ul>
 

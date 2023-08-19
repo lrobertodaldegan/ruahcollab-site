@@ -1,18 +1,43 @@
 import { useState } from "react";
 import Logo from "../Logo/Logo";
+import {post} from '../../Utils/restUtils';
 import './SignUpForm.css';
 
-const SignUpForm = () => {
+const SignUpForm = ({navHandler}) => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [resumo, setResumo] = useState('');
+  const [btnLbl, setBtnLbl] = useState('Pronto!');
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(event.target);
+    if(btnLbl === 'Pronto!'){
+      let body = {
+        email:email,
+        name:nome,
+        password:senha,
+        phone:telefone,
+        resume:resumo
+      }
+    
+      post('/auth/v/signup', body).then(response => {
+        if(response.status == 201){
+          setBtnLbl('Entrando...');
+
+          post('/auth/signin', {email: email, password: senha}).then(response => {
+            if(response.status == 200)
+              navHandler('app');
+            else
+              setBtnLbl('Tente novamente.');
+          });
+        } else {
+          setBtnLbl('Tente novamente.');
+        }
+      });
+    }
   }
 
   return (
@@ -32,42 +57,42 @@ const SignUpForm = () => {
       <div className="row">
         <div className="col">
           <input type='text' name='nome' placeholder="Seu nome"
-            value={nome}/>   
+            value={nome} onChange={(e) => setNome(e.target.value)}/>   
         </div>
       </div>
 
       <div className="row">
         <div className="col">
           <input type='text' name='email' placeholder="Seu e-mail"
-            value={email}/>   
+            value={email} onChange={(e) => setEmail(e.target.value)}/>   
         </div>
       </div>
 
       <div className="row">
         <div className="col">
           <input type='text' name='telefone' placeholder="Seu telefone para contato"
-            value={telefone}/>   
+            value={telefone} onChange={(e) => setTelefone(e.target.value)}/>   
         </div>
       </div>
       
       <div className="row">
         <div className="col">
           <input type='password' name='senha' placeholder="Sua nova senha"
-            value={senha}/> 
+            value={senha} onChange={(e) => setSenha(e.target.value)}/> 
         </div>
       </div>
 
       <div className="row">
         <div className="col">
-          <textarea placeholder="Fale mais sobre você (profissão, experiência, etc)">
-            {resumo}
-          </textarea> 
+          <textarea placeholder="Fale mais sobre você (profissão, experiência, etc)"
+              value={resumo} onChange={(e) => setResumo(e.target.value)}
+          />
         </div>
       </div>
 
       <div className="row">
         <div className="col">
-          <input type='submit' value='Pronto!'/>    
+          <input type='submit' value={btnLbl}/>    
         </div>
       </div>
 

@@ -71,3 +71,11 @@
   color: #8a4a20;
   background-color: transparent;
 }
+
+.demandCard .input-title{
+  font-size: 18px;
+}
+
+.demandCard textarea{
+  width: 90%;
+}

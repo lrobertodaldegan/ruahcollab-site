@@ -15,6 +15,11 @@
   font-size: 14px;
 }
 
+.instituicaoCard li a,
+.instituicaoCard li a:active{
+  color: #8a4a20;
+}
+
 .instituicaoCard li svg{
   margin-right: 10px;
   width: 20px;

@@ -6,6 +6,7 @@ import ProfilePage from './Profile/ProfilePage';
 import SearchPage from './Search/SearchPage';
 import SubscriptionsPage from './Subscriptions/SubscriptionsPage';
 import VoltairPage from './Voluntair/VoluntairPage';
+import {get, post} from '../../Utils/restUtils';
 
 const menus = [
   {type:'a', id:'ep', label:'Editar Perfil', content:<ProfilePage/>},
@@ -17,26 +18,29 @@ const menus = [
 ];
 
 const AppPage = ({navHandler=()=>null}) => {
-  const [profileType, setProfileType] = useState('v');
+  const [profileType, setProfileType] = useState('a');
   const [content, setContent] = useState(menus[0].content);
   const [contentTitle, setContentTitle] = useState(menus[0].label);
 
   useEffect(() => {
-    setProfileType('i');//TODO buscar o profile type a partir do jwt. Preencher tbm demais informações
+    get('/user').then(response => {
+      if(response.status == 200)
+        setProfileType(response.data.role === 'institution' ? 'i' : 'v');
+    });
   }, []);
 
   const loadMenus = () => {
     let itens = [];
   
     const handleClick = (m) => {
-      if(m.id === 'sair'){
-        //TODO LOGOFF
-        //window.location.replace('/');
-        navHandler('/');
-      } else {
-        setContent(m.content);
-        setContentTitle(m.label);
-      }
+      get('/user').then(response => {
+        if(m.id === 'sair' || response.status != 200){
+          post('/auth/signout').then(response => navHandler('/'));
+        } else {
+          setContent(m.content);
+          setContentTitle(m.label);
+        }
+      });
     }
 
     menus.map(m => {

@@ -15,7 +15,7 @@ const HomePage = ({navHandler}) => {
 
           <div className='row'>
             <div className='col'>
-              <p>Frase de efeito</p>
+              <p>Gerando a vida de Cristo através da colaboração</p>
             </div>
           </div>
         </div>

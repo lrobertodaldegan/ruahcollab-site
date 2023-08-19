@@ -25,8 +25,8 @@ const HomeMenu = ({navHandler}) => {
     if(menus.quemSomos === action){
       content = <QuemSomos />
     } else if(menus.criarConta === action){
-      content = <SignUpOptions handleVoluntario={() => setModalContent(<SignUpForm/>)}
-                    handleInstituicao={()=> setModalContent(<SignUpInstitutionForm/>)}/>
+      content = <SignUpOptions handleVoluntario={() => setModalContent(<SignUpForm navHandler={navHandler}/>)}
+                    handleInstituicao={()=> setModalContent(<SignUpInstitutionForm navHandler={navHandler}/>)}/>
     } else if(menus.login === action){
       content = <LoginForm navHandler={navHandler}/>
     }
