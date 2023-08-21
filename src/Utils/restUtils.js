@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const BASEURL = 'http://localhost:8080'
+const BASEURL = 'https://acaodoespirito.com.br/ruahcollab'
 
 const DEFAULT_HEADERS = {
-  'X-Requested-With': 'XMLHttpRequest'
+  'X-Requested-With': 'XMLHttpRequest',
+  'Origin':'rc.acaodoespirito.com.br'
 }
 
 const get = async (urlPath, headers=DEFAULT_HEADERS)=>{
