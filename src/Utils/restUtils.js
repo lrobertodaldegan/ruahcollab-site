@@ -3,15 +3,14 @@ import axios from 'axios';
 const BASEURL = 'https://acaodoespirito.com.br/ruahcollab'
 
 const DEFAULT_HEADERS = {
-  'X-Requested-With': 'XMLHttpRequest',
-  'Origin':'rc.acaodoespirito.com.br'
+  'X-Requested-With': 'XMLHttpRequest'
 }
 
-const get = async (urlPath, headers=DEFAULT_HEADERS)=>{
+const get = async (urlPath, headers=DEFAULT_HEADERS, jwt='')=>{
   try{
     let response = await axios.get(`${BASEURL}${urlPath}`, {
       withCredentials:true,
-      headers:headers
+      headers: {...headers, 'Authorization':localStorage.getItem('Authorization token')}
     });
 
     return response;
@@ -22,11 +21,11 @@ const get = async (urlPath, headers=DEFAULT_HEADERS)=>{
   }
 }
 
-const post = async (urlPath, body={}, headers=DEFAULT_HEADERS) => {
+const post = async (urlPath, body={}, headers=DEFAULT_HEADERS, jwt='') => {
   try{
     let response = await axios.post(`${BASEURL}${urlPath}`, body, {
       withCredentials:true,
-      headers:headers
+      headers: {...headers, 'Authorization':localStorage.getItem('Authorization token')}
     });
 
     return response;
@@ -37,11 +36,11 @@ const post = async (urlPath, body={}, headers=DEFAULT_HEADERS) => {
   }
 }
 
-const del = async (urlPath, headers=DEFAULT_HEADERS) => {
+const del = async (urlPath, headers=DEFAULT_HEADERS, jwt='') => {
   try{
     let response = await axios.delete(`${BASEURL}${urlPath}`, {
       withCredentials:true,
-      headers:headers
+      headers: {...headers, 'Authorization':localStorage.getItem('Authorization token')}
     });
 
     return response;
@@ -52,11 +51,11 @@ const del = async (urlPath, headers=DEFAULT_HEADERS) => {
   }
 }
 
-const put = async (urlPath, body={}, headers=DEFAULT_HEADERS) => {
+const put = async (urlPath, body={}, headers=DEFAULT_HEADERS, jwt='') => {
   try{
     let response = await axios.put(`${BASEURL}${urlPath}`, body, {
       withCredentials:true,
-      headers: headers
+      headers: {...headers, 'Authorization':localStorage.getItem('Authorization token')}
     });
 
     return response;

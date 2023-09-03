@@ -12,17 +12,21 @@ const [btnLbl, setBtnLbl] = useState('Login');
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    localStorage.clear();
+
     if(btnLbl === 'Login'){
       setBtnLbl('Entrando...');
 
-      post('/auth/signin', {email: email, password: senha}).then(response => {
+      post('/auth/signin', {email: email, password: senha}).then((response) => {
         if(response.status == 200){
+          localStorage.setItem('Authorization token', response.data.token);
+
           navHandler('app');
         } else {
           setBtnLbl('Tente novamente!');
         }
       })
-      .catch(err => setBtnLbl('Tente novamente!'));
+      .catch(err => {console.log(err); setBtnLbl('Tente novamente!');});
     }
   }
 

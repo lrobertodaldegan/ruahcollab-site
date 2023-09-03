@@ -24,8 +24,9 @@ const AppPage = ({navHandler=()=>null}) => {
 
   useEffect(() => {
     get('/user').then(response => {
-      if(response.status == 200)
+      if(response.status == 200){
         setProfileType(response.data.role === 'institution' ? 'i' : 'v');
+      }
     });
   }, []);
 
@@ -35,6 +36,7 @@ const AppPage = ({navHandler=()=>null}) => {
     const handleClick = (m) => {
       get('/user').then(response => {
         if(m.id === 'sair' || response.status != 200){
+          localStorage.clear();
           post('/auth/signout').then(response => navHandler('/'));
         } else {
           setContent(m.content);

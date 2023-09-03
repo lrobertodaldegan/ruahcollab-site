@@ -10,7 +10,7 @@ const InstitutionCard = ({item}) => {
       for(let c=0; c < i.photos.length; c++){
         fs.push(
           <div className='col'>
-            <img key={i} src={i.photos[c]} alt={i.nome}/>
+            <img key={`${i}_${new Date().getMilliseconds()}`} src={i.photos[c]} alt={i.nome}/>
           </div>
         );
       }
